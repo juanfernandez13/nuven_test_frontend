@@ -9,7 +9,7 @@ export default async function Handler(req, res) {
     return res.status(405).json({ error: "method not allowed" });
   }
 
-  if (method === "GET" && body != {}) {
+  if (method === "GET" && JSON.stringify(body) != '{}') {
     const { textSearch } = body;
 
     const data = await getTaskByDescriptionOrTitle(textSearch);
