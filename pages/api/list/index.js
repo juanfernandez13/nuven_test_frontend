@@ -8,8 +8,7 @@ export default async function Handler(req, res) {
   if (!allowedMethods.includes(method)) {
     return res.status(405).json({ error: "method not allowed" });
   }
-
-  if (method === "GET" && JSON.stringify(body) != '{}') {
+  if (method === "POST" && body.hasOwnProperty("textSearch")) {
     const { textSearch } = body;
 
     const data = await getTaskByDescriptionOrTitle(textSearch);

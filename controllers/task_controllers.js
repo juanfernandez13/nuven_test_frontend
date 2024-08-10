@@ -19,7 +19,6 @@ export const getAllTasks = async () => {
 };
 
 export const getTaskById = async (id) => {
-  console.log(id);
   try {
     const task = await prisma.task.findUnique({
       where: { id: parseInt(id) },
@@ -55,7 +54,13 @@ export const getTaskByDescriptionOrTitle = async (text) => {
         ],
       },
     });
-    return tasks;
+    const tasksWithDateFormat = tasks.map((task) => {
+      return {
+        ...task,
+        expirationDate: moment(task.expirationDate).format("DD/MM/YYYY"),
+      };
+    });
+    return tasksWithDateFormat;
   } catch (err) {
     console.log(err);
     return "Erro ao buscar tarefas";
