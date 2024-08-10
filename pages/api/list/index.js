@@ -1,4 +1,4 @@
-import { createTask, getAllTasks } from "@/controllers/task_controllers";
+import { createTask, getAllTasks, getTaskByDescriptionOrTitle } from "@/controllers/task_controllers";
 
 export default async function Handler(req, res) {
   const { method, body } = req;
@@ -7,6 +7,18 @@ export default async function Handler(req, res) {
 
   if (!allowedMethods.includes(method)) {
     return res.status(405).json({ error: "method not allowed" });
+  }
+
+  if (method === "GET" && body != {}) {
+    const { textSearch } = body;
+
+    const data = await getTaskByDescriptionOrTitle(textSearch);
+
+    if (typeof data === "object") {
+      return res.status(200).json({ data: data });
+    }
+
+    return res.status(500).json({ error: data });
   }
 
   if (method === "GET") {
@@ -18,13 +30,13 @@ export default async function Handler(req, res) {
 
     return res.status(500).json({ error: data });
   }
-  
+
   if (method === "POST") {
-    const message = await createTask(body)
-    
-    if(message === "Tarefa criada com sucesso"){
-      res.status(201).json({message: message})
+    const message = await createTask(body);
+
+    if (message === "Tarefa criada com sucesso") {
+      res.status(201).json({ message: message });
     }
-    res.status(500).json({message: message})
+    res.status(500).json({ message: message });
   }
 }

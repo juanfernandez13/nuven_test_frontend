@@ -8,9 +8,10 @@ export const getAllTasks = async () => {
     const tasks = await prisma.task.findMany();
     const tasksWithDateFormat = tasks.map((task) => {
       return {
-        ...task, "expirationDate": moment(task.expirationDate).format("DD/MM/YYYY")
-      }
-    })
+        ...task,
+        expirationDate: moment(task.expirationDate).format("DD/MM/YYYY"),
+      };
+    });
     return tasksWithDateFormat;
   } catch (err) {
     return "Erro ao buscar tarefas";
@@ -18,30 +19,45 @@ export const getAllTasks = async () => {
 };
 
 export const getTaskById = async (id) => {
-  console.log(id)
+  console.log(id);
   try {
     const task = await prisma.task.findUnique({
       where: { id: parseInt(id) },
     });
-    
-    return {...task, expirationDate: moment(task.expirationDate).format("DD/MM/YYYY")};
+
+    return {
+      ...task,
+      expirationDate: moment(task.expirationDate).format("DD/MM/YYYY"),
+    };
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return "Erro ao buscar tarefa";
   }
 };
 
-export const getTaskByDescription = async (description) => {
+export const getTaskByDescriptionOrTitle = async (text) => {
   try {
     const tasks = await prisma.task.findMany({
       where: {
-        description: {
-          contains: description
-        }
-      }
+        OR: [
+          {
+            description: {
+              contains: text,
+              mode: "insensitive",
+            },
+          },
+          {
+            title: {
+              contains: text,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
     });
     return tasks;
   } catch (err) {
+    console.log(err);
     return "Erro ao buscar tarefas";
   }
 };
@@ -49,8 +65,8 @@ export const getTaskByDescription = async (description) => {
 export const createTask = async (taskObj) => {
   const { title, description, expirationDate } = taskObj;
 
-  const momentDate = moment(expirationDate, "DD/MM/YYYY")
-  const isoDate = momentDate.toISOString()
+  const momentDate = moment(expirationDate, "DD/MM/YYYY");
+  const isoDate = momentDate.toISOString();
 
   try {
     await prisma.task.create({
@@ -63,7 +79,7 @@ export const createTask = async (taskObj) => {
 
     return "Tarefa criada com sucesso";
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return "Erro ao criar tarefa";
   }
 };
@@ -71,9 +87,9 @@ export const createTask = async (taskObj) => {
 export const updateTask = async (taskObj, id) => {
   const { title, description, expirationDate } = taskObj;
 
-  const momentDate = moment(expirationDate, "DD/MM/YYYY")
-  const isoDate = momentDate.toISOString()
-  const dateNow = moment().toISOString()
+  const momentDate = moment(expirationDate, "DD/MM/YYYY");
+  const isoDate = momentDate.toISOString();
+  const dateNow = moment().toISOString();
 
   try {
     await prisma.task.update({
@@ -82,13 +98,13 @@ export const updateTask = async (taskObj, id) => {
         title: title,
         description: description,
         expirationDate: isoDate,
-        updateAt: dateNow
+        updateAt: dateNow,
       },
     });
 
     return "Tarefa atualizada com sucesso";
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return "Erro ao atualizar tarefa";
   }
 };
