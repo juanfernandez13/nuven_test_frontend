@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import moment from "moment";
 
+import dateValidator from "@/helpers/dateValidator";
+
 const prisma = new PrismaClient();
 
 export const getAllTasks = async () => {
@@ -79,6 +81,10 @@ export const createTask = async (taskObj) => {
 
   const momentDate = moment(expirationDate, "DD/MM/YYYY");
   const isoDate = momentDate.toISOString();
+
+  if(title < 2 || description < 2 || dateValidator(expirationDate)){
+    return "Informe dados válidos";
+  }
 
   try {
     await prisma.task.create({

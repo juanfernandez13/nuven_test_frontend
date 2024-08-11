@@ -8,7 +8,6 @@ export default async function Handler(req, res) {
   if (!allowedMethods.includes(method)) {
     return res.status(405).json({ error: "method not allowed" });
   }
-  
   if (method === "POST" && body.hasOwnProperty("textSearch")) {
     const { textSearch } = body;
 
@@ -35,8 +34,11 @@ export default async function Handler(req, res) {
     const message = await createTask(body);
 
     if (message === "Tarefa criada com sucesso") {
-      res.status(201).json({ message: message });
+      return res.status(201).json({ message: message });
     }
-    res.status(500).json({ message: message });
+    if (message === "Informe dados válidos") {
+      return res.status(400).json({ message: message });
+    }
+    return res.status(500).json({ message: message });
   }
 }

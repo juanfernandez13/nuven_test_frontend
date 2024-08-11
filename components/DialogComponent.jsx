@@ -1,5 +1,7 @@
-import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
+
+import dateValidator from "@/helpers/dateValidator";
 
 const DialogTaskComponent = (props) => {
   const { isOpen, onClose, task, onSubmit } = props;
@@ -41,38 +43,7 @@ const DialogTaskComponent = (props) => {
     }
 
     if (value.length === 10) {
-      const [dia, mes, ano] = value.split("/").map(Number);
-
-      if (mes < 1 || mes > 12) {
-        setExpirationDateError(true);
-        return;
-      }
-
-      const diasPorMes = [
-        31,
-        (ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0 ? 29 : 28,
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31,
-      ];
-
-      if (dia < 1 || dia > diasPorMes[mes - 1]) {
-        setExpirationDateError(true);
-        return;
-      }
-
-      if (ano < 1900 || ano > 2100) {
-        setExpirationDateError(true);
-      } else {
-        setExpirationDateError(false);
-      }
+      setExpirationDateError(dateValidator(value));
     }
 
     setExpirationDate(value);
