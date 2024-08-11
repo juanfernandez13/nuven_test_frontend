@@ -8,7 +8,7 @@ const SearchBarComponent = (props) => {
   return (
     <div
       id="searchBarComponent"
-      className="flex items-center border border-gray-300 rounded-lg p-2 mx-auto w-4/5 md:w-3/4"
+      className="flex items-center border border-gray-300 rounded-lg p-2 mx-auto w-4/5 lg:w-3/5"
     >
       <input
         onChange={(event) => setValue(event.target.value)}
