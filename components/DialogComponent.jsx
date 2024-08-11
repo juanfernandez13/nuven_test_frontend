@@ -1,4 +1,3 @@
-// Dialog.js
 import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -30,7 +29,7 @@ const DialogTaskComponent = (props) => {
 
   useEffect(() => {
     existsTask();
-  }, [existsTask]);
+  }, []);
 
   const onChangeExpirationDate = (text) => {
     let value = text.replace(/\D/g, "");
@@ -136,6 +135,9 @@ const DialogTaskComponent = (props) => {
           onClick={() => {
             onSubmit({ title, description, expirationDate });
             onClose();
+            setTitle("");
+            setDescription("");
+            setExpirationDate("");
           }}
         >
           {buttonCommand}

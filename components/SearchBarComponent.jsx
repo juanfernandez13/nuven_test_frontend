@@ -15,7 +15,7 @@ const SearchBarComponent = (props) => {
         value={value}
         type="text"
         placeholder="Pesquisar..."
-        className="flex-grow p-2 border-none bg-transparent focus:outline-none"
+        className="w-full p-2 border-none bg-transparent focus:outline-none"
       />
       <button type="submit" className="p-2">
         <FontAwesomeIcon icon={faSearch} />

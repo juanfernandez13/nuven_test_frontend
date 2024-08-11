@@ -1,12 +1,18 @@
-import moment from "moment";
 import React, { useState } from "react";
-import DialogTaskComponent from "./DialogComponent";
-import { baseURL } from "@/constants";
 
-const CardTaskComponent = ({ task }) => {
+import moment from "moment";
+
+import DialogTaskComponent from "./DialogComponent";
+
+import { baseURL } from "@/constants";
+import { DialogConfirmComponent } from ".";
+
+const CardTaskComponent = ({ task, editTask, deleteTask }) => {
   const { id, title, description, expirationDate } = task;
+
   const [readMore, setReadMore] = useState(false);
-  const [showDialog, setShowDialog] = useState(false);
+  const [showDialogEdit, setShowDialogEdit] = useState(false);
+  const [showDialogConfirm, setShowDialogConfirm] = useState(false);
 
   let seeDescription = "";
   const splitDescription = description.split(" ");
@@ -38,30 +44,24 @@ const CardTaskComponent = ({ task }) => {
     return "bg-green-400";
   };
 
-  const editTask = async (task) => {
-    const { title, description, expirationDate } = task;
-    try {
-      await fetch(baseURL + "/list/" + id, {
-        method: "PUT",
-        body: JSON.stringify({
-          title: title,
-          description: description,
-          expirationDate: expirationDate,
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-    } catch (err) {
-      console.log(err);
-    }
+  const handleCloseConfirm = () => {
+    setShowDialogConfirm(false);
   };
 
   return (
     <div className="w-4/5 bg-card rounded-lg border-[2px] border-white flex overflow-hidden justify-between p-4 sm:px-8 ">
       <DialogTaskComponent
-        isOpen={showDialog}
-        onClose={() => setShowDialog(false)}
+        isOpen={showDialogEdit}
+        onClose={() => setShowDialogEdit(false)}
         task={task}
-        onSubmit={(task) => editTask(task)}
+        onSubmit={(task) => editTask({ ...task, id: id })}
+      />
+      <DialogConfirmComponent
+        isOpen={showDialogConfirm}
+        onClose={() => handleCloseConfirm()}
+        confirmTitle={"Deseja confirmar?"}
+        confirmDescription={"Você realmente deseja excluir essa tarefa?"}
+        onSubmit={() => deleteTask(id)}
       />
       <div className="w-full sm:w-4/5 flex gap-4 flex-col">
         <h3 className="font-semibold text-2xl">{title}</h3>
@@ -88,11 +88,16 @@ const CardTaskComponent = ({ task }) => {
         <div className="w-full justify-center sm:justify-start flex gap-6">
           <button
             className="px-4 py-2 rounded-lg border-2 border-white hover:bg-[#ffffff40] transition-colors duration-500"
-            onClick={() => setShowDialog(true)}
+            onClick={() => setShowDialogEdit(true)}
           >
             Editar
           </button>
-          <button className="px-4 py-2 rounded-lg border-2 border-red-500 bg-red-500 hover:bg-[#D85C5E] hover:border-[#D85C5E] transition-colors duration-500">
+          <button
+            className="px-4 py-2 rounded-lg border-2 border-red-500 bg-red-500 hover:bg-[#D85C5E] hover:border-[#D85C5E] transition-colors duration-500"
+            onClick={() => {
+              setShowDialogConfirm(true);
+            }}
+          >
             Excluir
           </button>
         </div>
