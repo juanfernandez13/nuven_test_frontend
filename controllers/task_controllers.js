@@ -5,7 +5,11 @@ const prisma = new PrismaClient();
 
 export const getAllTasks = async () => {
   try {
-    const tasks = await prisma.task.findMany();
+    const tasks = await prisma.task.findMany({
+      orderBy: {
+        expirationDate: 'asc'
+      }
+    });
     const tasksWithDateFormat = tasks.map((task) => {
       return {
         ...task,
@@ -37,6 +41,9 @@ export const getTaskById = async (id) => {
 export const getTaskByDescriptionOrTitle = async (text) => {
   try {
     const tasks = await prisma.task.findMany({
+      orderBy: {
+        expirationDate: 'asc'
+      },
       where: {
         OR: [
           {

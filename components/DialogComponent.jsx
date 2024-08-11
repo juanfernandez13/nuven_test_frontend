@@ -30,7 +30,7 @@ const DialogTaskComponent = (props) => {
 
   useEffect(() => {
     existsTask();
-  }, []);
+  }, [existsTask]);
 
   const onChangeExpirationDate = (text) => {
     let value = text.replace(/\D/g, "");
@@ -48,7 +48,7 @@ const DialogTaskComponent = (props) => {
         setExpirationDateError(true);
         return;
       }
-      
+
       const diasPorMes = [
         31,
         (ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0 ? 29 : 28,
