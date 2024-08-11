@@ -119,6 +119,7 @@ export default function Home() {
             deleteTask={(id) => deleteTask(id)}
           />
         ))}
+        {tasks.length === 0 && <p>Nenhuma tarefa encontrada. </p>}
       </div>
     </div>
   );

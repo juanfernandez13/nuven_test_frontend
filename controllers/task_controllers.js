@@ -110,7 +110,7 @@ export const updateTask = async (taskObj, id) => {
         title: title,
         description: description,
         expirationDate: isoDate,
-        updateAt: dateNow,
+        updatedAt: dateNow,
       },
     });
 

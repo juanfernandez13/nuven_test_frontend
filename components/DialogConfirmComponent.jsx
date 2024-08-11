@@ -25,7 +25,7 @@ const DialogConfirmComponent = (props) => {
         <h2 className="text-2xl mb-4">{confirmTitle}</h2>
         <p>{confirmDescription}</p>
 
-        <div className="flex gap-8 mt-8">
+        <div className="w-full flex gap-4 mt-8 flex-wrap justify-center">
           <button
             className="px-8 py-3 rounded-lg transition-colors duration-300 bg-red-500 hover:bg-[#D85C5E]"
             onClick={() => {
