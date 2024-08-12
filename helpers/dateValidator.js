@@ -1,5 +1,6 @@
 export default function dateValidator(value) {
-  const [dia, mes, ano] = value.split("/").map(Number);
+  try {
+    const [dia, mes, ano] = value.split("/").map(Number);
 
       if (mes < 1 || mes > 12) {
         return true;
@@ -29,5 +30,8 @@ export default function dateValidator(value) {
       } else {
         return false
       }
-    
+ 
+  } catch(error) {
+    return true
+  }
 }

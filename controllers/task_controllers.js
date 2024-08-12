@@ -79,12 +79,12 @@ export const getTaskByDescriptionOrTitle = async (text) => {
 export const createTask = async (taskObj) => {
   const { title, description, expirationDate } = taskObj;
 
-  const momentDate = moment(expirationDate, "DD/MM/YYYY");
-  const isoDate = momentDate.toISOString();
-
   if(title < 2 || description < 2 || dateValidator(expirationDate)){
     return "Informe dados válidos";
   }
+
+  const momentDate = moment(expirationDate, "DD/MM/YYYY");
+  const isoDate = momentDate.toISOString();
 
   try {
     await prisma.task.create({
@@ -104,6 +104,10 @@ export const createTask = async (taskObj) => {
 
 export const updateTask = async (taskObj, id) => {
   const { title, description, expirationDate } = taskObj;
+
+  if(title < 2 || description < 2 || dateValidator(expirationDate)){
+    return "Informe dados válidos";
+  }
 
   const momentDate = moment(expirationDate, "DD/MM/YYYY");
   const isoDate = momentDate.toISOString();
@@ -129,6 +133,7 @@ export const updateTask = async (taskObj, id) => {
 
 export const deleteTask = async (id) => {
   try {
+    
     await prisma.task.delete({
       where: { id: parseInt(id) },
     });

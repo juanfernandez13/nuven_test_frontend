@@ -23,7 +23,7 @@ export default async function Handler(req, res) {
   }
   if(method === "DELETE"){
     const message = await deleteTask(query.id)
-    if(message) {
+    if(message === "Erro ao remover tarefa") {
       return res.status(400).json({message: message})
     }
     return res.status(204).send()
