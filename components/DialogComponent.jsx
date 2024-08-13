@@ -31,7 +31,7 @@ const DialogTaskComponent = (props) => {
 
   useEffect(() => {
     existsTask();
-  }, []);
+  }, [onClose]);
 
   const onChangeExpirationDate = (text) => {
     let value = text.replace(/\D/g, "");
