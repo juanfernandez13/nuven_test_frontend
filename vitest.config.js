@@ -27,6 +27,10 @@ export default defineConfig({
         find: "@/helpers",
         replacement: path.resolve(__dirname, "helpers"),
       },
+      {
+        find: "@/pages",
+        replacement: path.resolve(__dirname, "pages"),
+      },
     ],
   },
 });
