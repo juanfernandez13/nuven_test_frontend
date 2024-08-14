@@ -1,40 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">
+   Desenvolvimento de uma lista de tarefas 
+</h1>
 
-## Getting Started
 
-First, run the development server:
+![Linguagem](https://img.shields.io/github/languages/top/juanfernandez13/nuven_test_frontend?color=yellow&style=for-the-badge)
+![Tamanho](https://img.shields.io/github/languages/code-size/juanfernandez13/nuven_test_frontend?color=yellow&style=for-the-badge)
+![última atualização](https://img.shields.io/github/last-commit/juanfernandez13/nuven_test_frontend?color=yellow&style=for-the-badge)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Sobre o projeto :man_technologist:
+O projeto consiste na criação de uma interface integrada ao banco de dados para realizar um CRUD de tarefas.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<h2>
+  Tecnologias
+</h2>
+ - ReactJS
+ - NextJS
+ - Tailwind
+ - MUI
+ - PostgresSQL
+ - Prisma ORM
+ - Docker
+ - Viteste
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+ ## Como inicializar?
+ Primeiro você deve ter o Yarn instalado em sua máquina, caso não tenha execute o seguinte comando ``npm install -g yarn``.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+ Configure 2 arquivos, o ``.env`` e o ``.env.test``, onde serão armazenadas a URL do banco de dados e o banco de teste. Vou deixar as URLs aqui só para facilitar.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+ No arquivo ``.env`` coloque a seguinte chave: ``` DATABASE_URL="postgresql://postgres:root@localhost:5432/postgres?schema=public" ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+ Já no ``.env.test`` coloque ``DATABASE_URL="postgresql://postgres:root@localhost:5433/postgres?schema=public"``
 
-## Learn More
+ Execute ``yarn`` no terminal para instalar as dependências do projeto.
 
-To learn more about Next.js, take a look at the following resources:
+ Após isso, você precisar ter o docker instalado e configurado em sua máquina. A partir disso é possível executar alguns scripts configurados no package.json.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ Então execute o comando ``yarn docker:db`` para inicializar o banco de dados no docker, com a inicialização podemos rodar nossas migrations, então execute ```yarn prisma migrate dev``
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Com isso seu projeto já estará pronto para ser executado. Então execute o comando ``yarn dev``. Assim a Api e o Site já estão disponíveis, visto que foi tudo realizado com NextJS.
 
-## Deploy on Vercel
+Acesse http://localhost:3000 para integir com a aplicação.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Rotas 🚩
+| Métodos |    Rotas     |               Descrição               |
+| ------- | :----------: | :-----------------------------------: |
+| GET     |   /api/list    |   Retorna todas as tarefas cadastradas |
+| GET     | /api/list/id   |   Retorna a tarefa especificado por id   |
+| POST    |   /api/list   |     Cria uma nova tarefa |
+| POST    |   /api/list   |     Se houver no corpo o campo ``textSearch`` retorna as tarefas que contenham o ``textSearch`` no título ou descrição |
+| PUT   | /api/list/id | Atualiza uma tarefa identificado por id |
+| DELETE  | /api/list/id |  Deleta uma tarefa especificado por id  |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Como realizar os testes
+Para realizar os testes você pode executar o script ``yarn test`` onde será inicializado um banco independente só para a realização do teste. Após essa inicialização ele executará as migrations e realizar os testes da pasta ``tests`` e por fim ele elimina o banco de dados independente.
+Caso você queira ver a cobertura desses testes é possível executar ``yarn coverage`` e vizualizar o arquivo ``ìndex.html`` criado na pasta coverage.
